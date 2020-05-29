@@ -1,0 +1,2 @@
+rootProject.name='D4 App'
+include ':app'
