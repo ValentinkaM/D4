@@ -1,6 +1,5 @@
-this is a test to see if I can push to the repository.
-
-- jade
-
 5/29/2020 changelog
 - added permission request for internet
+
+6/1/2020 changelog
+- began to experiment with making API call
