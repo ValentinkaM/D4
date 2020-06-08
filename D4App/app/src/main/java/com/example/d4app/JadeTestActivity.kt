@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
+import java.math.RoundingMode
 
 
 class JadeTestActivity : AppCompatActivity() {
@@ -31,11 +32,12 @@ class JadeTestActivity : AppCompatActivity() {
 
     fun run(weight: String, height: String, sex: String, age: String) {
 
-        val textView = findViewById<TextView>(R.id.bmiInfo)
+        val bmiText = findViewById<TextView>(R.id.bmiNum)
+        val idealWeightText = findViewById<TextView>(R.id.idealWeight)
         var gson = Gson()
         var myBMI : UserBMIEntity.UserBMIInfo
-        var displayMessage = "nothing here."
-        println("initializing displaymessage: ${displayMessage}")
+        var bmiMsg = "nothing here."
+        var weightMsg = "nothing here."
 
         val mediaType = MediaType.parse("application/json")
         val url = "https://bmi.p.rapidapi.com/"
@@ -59,20 +61,28 @@ class JadeTestActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     myBMI = gson.fromJson(response.body()?.string(), UserBMIEntity.UserBMIInfo::class.java)
-                    displayMessage = "Your BMI is ${myBMI.bmi.value}. Your ideal weight based on your information would be ${myBMI.ideal_weight}"
-                    println("running after getting response: ${displayMessage}")
+                    bmiMsg = "${myBMI.bmi.value}"
 
+                    val str = myBMI.ideal_weight
+                    val numbers = Regex("[0-9]+").findAll(str)
+                        .map(MatchResult::value)
+                        .toList()
+
+                    val weightString = arrayOf("${numbers[0]}.${numbers[1]}", "${numbers[2]}.${numbers[3]}")
+
+                    weightMsg = "${weightString[0].toBigDecimal().setScale(1, RoundingMode.UP).toDouble() * 2.2} lbs to" +
+                            "${weightString[1].toBigDecimal().setScale(1, RoundingMode.UP).toDouble() * 2.2} lbs."
                     Handler(Looper.getMainLooper()).post(Runnable {
-                        textView.apply {
-                            text = displayMessage
+                        bmiText.apply {
+                            text = bmiMsg
+                        }
+                        idealWeightText.apply {
+                            text = weightMsg
                         }
                     })
                 }
             }
         })
-
-
-        println("running at bottom of run function: ${displayMessage}")
     }
 }
 
