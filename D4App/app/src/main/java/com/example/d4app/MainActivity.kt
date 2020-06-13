@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     }
     /** Called when the user taps the D4 Logo button */
     fun sendMessage(view: View) {
-        val intent = Intent(this, DisplayMessageActivity::class.java)
+        val intent = Intent(this, FormFields::class.java)
         startActivity(intent)
     }
 
