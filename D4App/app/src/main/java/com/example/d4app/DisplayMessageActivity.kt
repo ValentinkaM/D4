@@ -2,8 +2,6 @@ package com.example.d4app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.widget.TextView
 
 class DisplayMessageActivity : AppCompatActivity() {
 
