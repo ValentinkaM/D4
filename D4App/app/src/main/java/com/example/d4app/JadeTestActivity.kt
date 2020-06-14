@@ -1,3 +1,22 @@
+/**************************************************************************************************
+ * AUTHOR: JADE
+ * PURPOSE: Functionality for the activity which displays information retrieved via API call.
+ *
+ * - takes user input (currently hard-coded) and passes it to API call
+ * - API call returns BMI information in the form of a JSON object
+ * - Parses JSON object and retrieves the relevant values.
+ * - Displays values on screen.
+ *
+ * Tammie, you can probably? add your functionality to this file, or otherwise integrate the
+ * functionality however you see fit.
+ *
+ * Activity should eventually display:
+ * - User image
+ * - User's name, in a greeting
+ * - It doesn't need to /display/ any other input, but will be accessing the other data
+ *   for the BMI call
+ **************************************************************************************************/
+
 package com.example.d4app
 
 import android.os.Bundle
@@ -9,7 +28,6 @@ import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
 import java.math.RoundingMode
-
 
 class JadeTestActivity : AppCompatActivity() {
     // set up the OkHttpClient to make the call.
@@ -32,6 +50,7 @@ class JadeTestActivity : AppCompatActivity() {
 
     fun run(weight: String, height: String, sex: String, age: String) {
 
+        // access the field which displays BMI number.
         val bmiText = findViewById<TextView>(R.id.bmiNum)
         val idealWeightText = findViewById<TextView>(R.id.idealWeight)
         var gson = Gson()
@@ -86,6 +105,7 @@ class JadeTestActivity : AppCompatActivity() {
     }
 }
 
+// Class to hold information as retrieved from API call's JSON obect.
 class UserBMIEntity {
 
     data class UserBMIInfo(
