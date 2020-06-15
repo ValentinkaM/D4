@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">D4 App</string>
+    <string name="name">Name</string>
+    <string name="weight">Weight</string>
+    <string name="lbs">lbs</string>
+    <string name="height">Height</string>
+    <string name="ft">Ft</string>
+    <string name="in">In</string>
+    <string name="f">Female</string>
+    <string name="m">Male</string>
+    <string name="no_answer">Prefer not to answer</string>
+
+    <string-array name="bio_role">
+        <item>@string/f</item>
+        <item>@string/m</item>
+        <item>@string/no_answer</item>
+    </string-array>
 </resources>
