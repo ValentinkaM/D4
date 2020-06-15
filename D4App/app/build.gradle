@@ -31,8 +31,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'     // added by jade 6/1/2020 in order to better enable API calls
-    implementation 'com.google.code.gson:gson:2.8.5'        // added by jade 6/4/2020 in order to help with parsing JSON
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    // added by jade 6/1/2020 in order to better enable API calls
+    implementation 'com.google.code.gson:gson:2.8.5'
+    // added by jade 6/4/2020 in order to help with parsing JSON
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

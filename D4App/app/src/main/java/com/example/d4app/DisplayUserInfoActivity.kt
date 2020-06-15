@@ -29,13 +29,13 @@ import okhttp3.*
 import java.io.IOException
 import java.math.RoundingMode
 
-class JadeTestActivity : AppCompatActivity() {
+class DisplayUserInfoActivity : AppCompatActivity() {
     // set up the OkHttpClient to make the call.
     private val client = OkHttpClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_jade_test)
+        setContentView(R.layout.activity_display_user_info)
 
         // hard coded values standing in for user values
         val weight = "160"
@@ -47,7 +47,6 @@ class JadeTestActivity : AppCompatActivity() {
         // Eventually, we would want to pass it the user's input values but for now we're just passing it hard-coded values.
         run(weight, height, sex, age)
     }
-
     fun run(weight: String, height: String, sex: String, age: String) {
 
         // access the field which displays BMI number.
@@ -148,6 +147,4 @@ class UserBMIEntity {
         val status: String
     )
 }
-
-
 
