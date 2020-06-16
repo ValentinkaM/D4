@@ -22,31 +22,91 @@ package com.example.d4app
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import okhttp3.*
+import java.io.BufferedReader
+import java.io.FileInputStream
 import java.io.IOException
+import java.io.InputStreamReader
 import java.math.RoundingMode
 
 class DisplayUserInfoActivity : AppCompatActivity() {
     // set up the OkHttpClient to make the call.
     private val client = OkHttpClient()
+    // hard coded values standing in for user values
+    private var weight = "160"
+    private var height = "5-10"
+    private var sex = "m"
+    private var age = "24"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display_user_info)
-
-        // hard coded values standing in for user values
-        val weight = "160"
-        val height = "5-10"
-        val sex = "m"
-        val age = "24"
+        setUserData()
 
         // Call function which makes the call to the API.
         // Eventually, we would want to pass it the user's input values but for now we're just passing it hard-coded values.
         run(weight, height, sex, age)
     }
+
+    fun setUserData()
+    {
+        val dataValues : String
+
+    val filename = "ProfileData.txt"
+        var fileInputStream: FileInputStream? = null
+        fileInputStream = openFileInput(filename)
+        var inputStreamReader: InputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+        val stringBuilder: StringBuilder = StringBuilder()
+        var text: String? = null
+        while ({ text = bufferedReader.readLine(); text }() != null) {
+            stringBuilder.append(text)
+        }
+
+        dataValues = stringBuilder.toString()
+
+        var result = dataValues.split(",").map { it.trim() }
+        result.forEach(fun(it: String) {
+            when {
+                it.startsWith("name:", true) -> {
+                    //   name.setText(it.substringAfter(":")).toString()
+                }
+                it.startsWith("birthdate:", true) -> {
+                    //birthdate.setText(it.substringAfter(":")).toString()
+                }
+                it.startsWith("age:", true) -> {
+                    //age.setText(it.substringAfter(":")).toString()
+                    age = it.substringAfter(":")
+                }
+                it.startsWith("height:", true) -> {
+                    height = it.substringAfter(":")
+                }
+                it.startsWith("weight:", true) -> {
+                    //weight.setText(it.substringAfter(":")).toString()
+                    weight = it.substringAfter(":")
+                }
+                it.startsWith("biorole:", true) -> {
+                    sex = setBioRole(it.substringAfter(":"))
+
+                }
+            }
+        })
+
+    }
+
+    fun setBioRole(roleFromFile: String): String
+    {
+        return if(roleFromFile.toLowerCase() == "male") {
+            "m"
+        } else {
+            "f"
+        }
+    }
+
     fun run(weight: String, height: String, sex: String, age: String) {
 
         // access the field which displays BMI number.

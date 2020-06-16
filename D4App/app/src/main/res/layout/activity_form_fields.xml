@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/userIn"
+        android:id="@+id/userHeightIn"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
     <EditText
-        android:id="@+id/userFt"
+        android:id="@+id/userHeightFt"
         android:layout_width="wrap_content"
         android:layout_height="47dp"
         android:layout_marginStart="32dp"
@@ -77,7 +77,7 @@
         android:text="@string/in"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/userIn"
+        app:layout_constraintStart_toEndOf="@+id/userHeightIn"
         app:layout_constraintTop_toBottomOf="@+id/userWeight" />
 
     <TextView
@@ -105,7 +105,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/userName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -130,15 +130,15 @@
         android:layout_marginTop="32dp"
         android:text="@string/ft"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/userFt"
+        app:layout_constraintStart_toEndOf="@+id/userHeightFt"
         app:layout_constraintTop_toBottomOf="@+id/userWeight" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnSaveUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Submit"
+        android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -154,10 +154,10 @@
         android:layout_marginRight="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userFt" />
+        app:layout_constraintTop_toBottomOf="@+id/userHeightFt" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/userBDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -165,18 +165,18 @@
         android:hint="Enter Date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText6" />
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/userBDate"
         android:layout_marginTop="16dp"
         android:text="Get Date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText1" />
+        app:layout_constraintTop_toBottomOf="@+id/userBDate" />
 
     <TextView
         android:id="@+id/textView1"
