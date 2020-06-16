@@ -14,7 +14,6 @@
         <activity android:name=".DisplayUserInfoActivity">
         </activity>
         <activity android:name=".FormFields">
-
         </activity>
         <activity android:name=".DisplayMessageActivity" />
         <activity android:name=".MainActivity">

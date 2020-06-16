@@ -9,6 +9,7 @@
     <string name="f">Female</string>
     <string name="m">Male</string>
     <string name="no_answer">Prefer not to answer</string>
+    <string name="pounds">Pounds</string>
 
     <string-array name="bio_role">
         <item>@string/f</item>

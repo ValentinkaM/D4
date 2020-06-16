@@ -22,8 +22,6 @@ class FormFields : AppCompatActivity() {
 
     var picker: DatePickerDialog? = null
     var birthDay: EditText? = null
-    var btnGet: Button? = null
-    var tvw: TextView? = null
 
     var userAge: Int? = null
 
@@ -35,7 +33,6 @@ class FormFields : AppCompatActivity() {
         // SETUP ELEMENTS
         val spinner: Spinner = findViewById(R.id.userSex)
 
-        tvw = findViewById<TextView>(R.id.textView1)
         birthDay = findViewById<EditText>(R.id.userBDate)
 
         val name = findViewById<EditText>(R.id.userName)
@@ -78,9 +75,6 @@ class FormFields : AppCompatActivity() {
             )
             picker!!.show()
         }
-
-        btnGet = findViewById<View>(R.id.button1) as Button
-        btnGet!!.setOnClickListener { tvw!!.text = "Selected Date: " + birthDay!!.text }
 
 
         btnSave.setOnClickListener(View.OnClickListener {
