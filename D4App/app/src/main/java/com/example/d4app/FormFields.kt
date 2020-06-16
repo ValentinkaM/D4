@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.*
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
@@ -41,6 +42,7 @@ class FormFields : AppCompatActivity() {
         val heightFeet = findViewById<EditText>(R.id.userHeightFt)
         val heightInches = findViewById<EditText>(R.id.userHeightIn)
         val weight = findViewById<EditText>(R.id.userWeight)
+        val bioRole = findViewById<Spinner>(R.id.userSex)
         val btnSave = findViewById<Button>(R.id.btnSaveUserProfile)
 
 
@@ -82,9 +84,11 @@ class FormFields : AppCompatActivity() {
 
 
         btnSave.setOnClickListener(View.OnClickListener {
+        // USED for debugging  Toast.makeText(applicationContext,"data save:" + bioRole.selectedItem.toString(),Toast.LENGTH_LONG).show()
+
 
             val userData: String =
-                "name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString()
+                "name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString() + ",biorole:" + bioRole.selectedItem.toString()
              writeDataToFile(userData)
 
            val intent = Intent(this, DisplayUserInfoActivity::class.java)
@@ -92,6 +96,7 @@ class FormFields : AppCompatActivity() {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun writeDataToFile(userData: String)
     {
 

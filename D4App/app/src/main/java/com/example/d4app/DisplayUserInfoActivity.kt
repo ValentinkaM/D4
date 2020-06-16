@@ -39,7 +39,7 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     // hard coded values standing in for user values
     private var weight = "160"
     private var height = "5-10"
-    private val sex = "m"
+    private var sex = "m"
     private var age = "24"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,9 +89,22 @@ class DisplayUserInfoActivity : AppCompatActivity() {
                     //weight.setText(it.substringAfter(":")).toString()
                     weight = it.substringAfter(":")
                 }
+                it.startsWith("biorole:", true) -> {
+                    sex = setBioRole(it.substringAfter(":"))
+
+                }
             }
         })
 
+    }
+
+    fun setBioRole(roleFromFile: String): String
+    {
+        return if(roleFromFile.toLowerCase() == "male") {
+            "m"
+        } else {
+            "f"
+        }
     }
 
     fun run(weight: String, height: String, sex: String, age: String) {
