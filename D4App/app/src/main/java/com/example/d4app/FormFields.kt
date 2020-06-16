@@ -2,6 +2,8 @@ package com.example.d4app
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.Context
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
@@ -10,12 +12,15 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 class FormFields : AppCompatActivity() {
 
     var picker: DatePickerDialog? = null
-    var eText: EditText? = null
+    var birthDay: EditText? = null
     var btnGet: Button? = null
     var tvw: TextView? = null
 
@@ -25,9 +30,21 @@ class FormFields : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_fields)
+
+        // SETUP ELEMENTS
         val spinner: Spinner = findViewById(R.id.userSex)
 
-// Create an ArrayAdapter using the string array and a default spinner layout
+        tvw = findViewById<TextView>(R.id.textView1)
+        birthDay = findViewById<EditText>(R.id.userBDate)
+
+        val name = findViewById<EditText>(R.id.userName)
+        val heightFeet = findViewById<EditText>(R.id.userHeightFt)
+        val heightInches = findViewById<EditText>(R.id.userHeightIn)
+        val weight = findViewById<EditText>(R.id.userWeight)
+        val btnSave = findViewById<Button>(R.id.btnSaveUserProfile)
+
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             this,
             R.array.bio_role,
@@ -39,10 +56,9 @@ class FormFields : AppCompatActivity() {
             spinner.adapter = adapter
         }
 
-        tvw = findViewById(R.id.textView1) as TextView
-        eText = findViewById(R.id.editText1) as EditText
-        eText!!.inputType = InputType.TYPE_NULL
-        eText!!.setOnClickListener {
+        // DATE CALENDAR FUNCTIONALIty
+        birthDay!!.inputType = InputType.TYPE_NULL
+        birthDay!!.setOnClickListener {
             val cldr: Calendar = Calendar.getInstance()
             val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
             val month: Int = cldr.get(Calendar.MONTH)
@@ -51,21 +67,49 @@ class FormFields : AppCompatActivity() {
             picker = DatePickerDialog(
                 this@FormFields,
                 OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    eText!!.setText(
+                    birthDay!!.setText(
                         (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
                     )
                     userAge = getAge(year, monthOfYear, dayOfMonth)
                     println("age is:" + userAge)
                 }, year, month, day
             )
-
-
             picker!!.show()
         }
+
         btnGet = findViewById<View>(R.id.button1) as Button
-        btnGet!!.setOnClickListener { tvw!!.text = "Selected Date: " + eText!!.text }
+        btnGet!!.setOnClickListener { tvw!!.text = "Selected Date: " + birthDay!!.text }
 
 
+        btnSave.setOnClickListener(View.OnClickListener {
+
+            val userData: String =
+                "name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString()
+             writeDataToFile(userData)
+
+           val intent = Intent(this, DisplayUserInfoActivity::class.java)
+           startActivity(intent)
+        })
+    }
+
+    private fun writeDataToFile(userData: String)
+    {
+
+        val file: String = "ProfileData.txt"
+
+        val fileOutputStream: FileOutputStream
+        try {
+            fileOutputStream = openFileOutput(file, Context.MODE_PRIVATE)
+            fileOutputStream.write(userData.toByteArray())
+        } catch (e: FileNotFoundException){
+            e.printStackTrace()
+        }catch (e: NumberFormatException){
+            e.printStackTrace()
+        }catch (e: IOException){
+            e.printStackTrace()
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 
