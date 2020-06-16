@@ -23,8 +23,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.BufferedReader
@@ -41,6 +43,10 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     private var height = "5-10"
     private var sex = "m"
     private var age = "24"
+
+
+    var profileView: ImageView = findViewById(R.id.profileImg)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +99,10 @@ class DisplayUserInfoActivity : AppCompatActivity() {
                     sex = setBioRole(it.substringAfter(":"))
 
                 }
+                it.startsWith("profileimg:", true) -> {
+                    //profileView.setImageURI(it.substringAfter(":").toUri())
+
+                }
             }
         })
 
@@ -106,6 +116,8 @@ class DisplayUserInfoActivity : AppCompatActivity() {
             "f"
         }
     }
+
+
 
     fun run(weight: String, height: String, sex: String, age: String) {
 

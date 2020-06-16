@@ -118,7 +118,7 @@ class FormFields : AppCompatActivity() {
 
 
             val userData: String =
-                "name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString() + ",biorole:" + bioRole.selectedItem.toString()
+                "profileimg:" + image_uri + "name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString() + ",biorole:" + bioRole.selectedItem.toString()
             writeDataToFile(userData)
 
             val intent = Intent(this, DisplayUserInfoActivity::class.java)
@@ -169,6 +169,7 @@ class FormFields : AppCompatActivity() {
         values.put(MediaStore.Images.Media.TITLE, "New Picture")
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
         image_uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        println("image uri is " + image_uri);
         //camera intent
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
