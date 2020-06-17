@@ -118,7 +118,7 @@ class FormFields : AppCompatActivity() {
 
 
             val userData: String =
-                "profileimg:" + image_uri + "name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString() + ",biorole:" + bioRole.selectedItem.toString()
+                "profileimg:" + image_uri + ",name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString() + ",biorole:" + bioRole.selectedItem.toString()
             writeDataToFile(userData)
 
             val intent = Intent(this, DisplayUserInfoActivity::class.java)

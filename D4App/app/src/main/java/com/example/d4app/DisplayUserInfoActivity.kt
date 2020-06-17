@@ -19,10 +19,10 @@
 
 package com.example.d4app
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -43,9 +43,9 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     private var height = "5-10"
     private var sex = "m"
     private var age = "24"
+    private var imgUri: Uri? = null
 
 
-    var profileView: ImageView = findViewById(R.id.profileImg)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,8 +100,8 @@ class DisplayUserInfoActivity : AppCompatActivity() {
 
                 }
                 it.startsWith("profileimg:", true) -> {
-                    //profileView.setImageURI(it.substringAfter(":").toUri())
-
+                    imgUri = Uri.parse(it.substringAfter(":"))
+                    println(imgUri.toString())
                 }
             }
         })
@@ -122,12 +122,17 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     fun run(weight: String, height: String, sex: String, age: String) {
 
         // access the field which displays BMI number.
+        val profileView = findViewById<ImageView>(R.id.profileImg)
         val bmiText = findViewById<TextView>(R.id.bmiNum)
         val idealWeightText = findViewById<TextView>(R.id.idealWeight)
         var gson = Gson()
         var myBMI : UserBMIEntity.UserBMIInfo
         var bmiMsg = "nothing here."
         var weightMsg = "nothing here."
+
+        profileView.apply {
+            setImageURI(imgUri)
+        }
 
         val mediaType = MediaType.parse("application/json")
         val url = "https://bmi.p.rapidapi.com/"
