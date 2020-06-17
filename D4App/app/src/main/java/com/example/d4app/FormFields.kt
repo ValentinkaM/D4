@@ -1,24 +1,35 @@
 package com.example.d4app
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.InputType
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.*
+import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_form_fields.*
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
 
 class FormFields : AppCompatActivity() {
+
+    private val PERMISSION_CODE = 1000;
+    private val IMAGE_CAPTURE_CODE = 1001
+    var image_uri: Uri? = null
 
     var picker: DatePickerDialog? = null
     var birthDay: EditText? = null
@@ -41,6 +52,31 @@ class FormFields : AppCompatActivity() {
         val weight = findViewById<EditText>(R.id.userWeight)
         val bioRole = findViewById<Spinner>(R.id.userSex)
         val btnSave = findViewById<Button>(R.id.btnSaveUserProfile)
+        val profileView = findViewById<CircleImageView>(R.id.profileImg)
+
+        // Camera functionality
+        profileView.setOnClickListener {
+            //if system os is Marshmallow or Above, we need to request runtime permission
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_DENIED ||
+                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED){
+                    //permission was not enabled
+                    val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    //show popup to request permission
+                    requestPermissions(permission, PERMISSION_CODE)
+                }
+                else{
+                    //permission already granted
+                    openCamera()
+                }
+            }
+            else{
+
+                openCamera()
+            }
+        }
 
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -78,15 +114,15 @@ class FormFields : AppCompatActivity() {
 
 
         btnSave.setOnClickListener(View.OnClickListener {
-        // USED for debugging  Toast.makeText(applicationContext,"data save:" + bioRole.selectedItem.toString(),Toast.LENGTH_LONG).show()
+            // USED for debugging  Toast.makeText(applicationContext,"data save:" + bioRole.selectedItem.toString(),Toast.LENGTH_LONG).show()
 
 
             val userData: String =
-                "name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString() + ",biorole:" + bioRole.selectedItem.toString()
-             writeDataToFile(userData)
+                "profileimg:" + image_uri + ",name:" + name.text.toString() + ",birthdate:" + birthDay.toString() + "age:" + userAge + ",height:" + heightFeet.text.toString() + "-" + heightInches.text.toString() + ",weight:" + weight.text.toString() + ",biorole:" + bioRole.selectedItem.toString()
+            writeDataToFile(userData)
 
-           val intent = Intent(this, DisplayUserInfoActivity::class.java)
-           startActivity(intent)
+            val intent = Intent(this, DisplayUserInfoActivity::class.java)
+            startActivity(intent)
         })
     }
 
@@ -123,6 +159,48 @@ class FormFields : AppCompatActivity() {
         }
         val ageInt = age
         return ageInt
+    }
+
+
+    // camera functionality
+
+    private fun openCamera() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        image_uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        println("image uri is " + image_uri);
+        //camera intent
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        //called when user presses ALLOW or DENY from Permission Request Popup
+        when(requestCode){
+            PERMISSION_CODE -> {
+                if (grantResults.size > 0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED){
+                    //permission from popup was granted
+                    openCamera()
+                }
+                else{
+                    //permission from popup was denied
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //called when image was captured from camera intent
+        if (resultCode == Activity.RESULT_OK){
+            //set image captured to image view
+            profileImg.setImageURI(image_uri)
+        }
     }
 
 

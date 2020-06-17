@@ -19,13 +19,16 @@
 
 package com.example.d4app
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.gson.Gson
+import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.*
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -42,6 +45,7 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     private var height = "0-0"
     private var sex = "m"
     private var age = "01"
+    private var imgUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +98,10 @@ class DisplayUserInfoActivity : AppCompatActivity() {
                     sex = setBioRole(it.substringAfter(":"))
 
                 }
+                it.startsWith("profileimg:", true) -> {
+                    imgUri = Uri.parse(it.substringAfter(":"))
+                    println(imgUri.toString())
+                }
             }
         })
 
@@ -108,10 +116,14 @@ class DisplayUserInfoActivity : AppCompatActivity() {
         }
     }
 
+
     fun run(name: String, weight: String, height: String, sex: String, age: String) {
-        // access greeting field
+        // access 
+      
+      ing field
         val greetText = findViewById<TextView>(R.id.greet)
         // access the field which displays BMI number.
+        val profileView = findViewById<CircleImageView>(R.id.profileImg)
         val bmiText = findViewById<TextView>(R.id.bmiNum)
         val idealWeightText = findViewById<TextView>(R.id.idealWeight)
         var gson = Gson()
@@ -120,6 +132,10 @@ class DisplayUserInfoActivity : AppCompatActivity() {
         var bmiMsg = "nothing here."
         var weightMsg = "nothing here."
 
+        profileView.apply {
+            setImageURI(imgUri)
+        }
+      
         greetText.apply {
             text = greetMsg
         }
