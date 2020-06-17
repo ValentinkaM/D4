@@ -11,17 +11,18 @@
     <!--ImageView in which image will be set-->
     <ImageView
         android:id="@+id/image_view"
-        android:src="@drawable/ic_image_black_24dp"
+        android:src="@drawable/profile"
         android:scaleType="centerCrop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
+        android:layout_width="55dp"
+        android:background="@drawable/img"
         />
 
     <!--Button to open camera-->
-    <Button
-        android:id="@+id/capture_btn"
-        android:text="@string/capture_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+  <Button
+      android:id="@+id/capture_btn"
+      android:text="@string/capture_image"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
 
 </LinearLayout>

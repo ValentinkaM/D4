@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,9 +23,42 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+// get reference to ImageView
+        val image_view = findViewById(R.id.image_view) as ImageView
+// set on-click listener for ImageView
+        image_view.setOnClickListener {
+                //if system os is Marshmallow or Above, we need to request runtime permission
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    if (checkSelfPermission(Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED ||
+                        checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_DENIED){
+                        //permission was not enabled
+                        val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        //show popup to request permission
+                        requestPermissions(permission, PERMISSION_CODE)
+                    }
+                    else{
+                        //permission already granted
+                        openCamera()
+                    }
+                }
+                else{
+
+                    openCamera()
+                }
+            }
+        // get reference to ImageView
+        val iv_click_me = findViewById(R.id.iv_click_me) as ImageView
+        // set on-click listener
+        iv_click_me.setOnClickListener {
+            // your code to perform when the user clicks on the ImageView
+            Toast.makeText(this@MainActivity, "You clicked on ImageView.", Toast.LENGTH_SHORT).show()
+        }
+    }
 
         //button click
-        capture_btn.setOnClickListener {
+        /*capture_btn.setOnClickListener {
             //if system os is Marshmallow or Above, we need to request runtime permission
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -46,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 openCamera()
             }
         }
-    }
+    }*/
 
     private fun openCamera() {
         val values = ContentValues()
