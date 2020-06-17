@@ -40,14 +40,12 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     // set up the OkHttpClient to make the call.
     private val client = OkHttpClient()
     // hard coded values standing in for user values
-    private var weight = "160"
-    private var height = "5-10"
+    private var name = "none"
+    private var weight = "0"
+    private var height = "0-0"
     private var sex = "m"
-    private var age = "24"
+    private var age = "01"
     private var imgUri: Uri? = null
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +54,7 @@ class DisplayUserInfoActivity : AppCompatActivity() {
 
         // Call function which makes the call to the API.
         // Eventually, we would want to pass it the user's input values but for now we're just passing it hard-coded values.
-        run(weight, height, sex, age)
+        run(name, weight, height, sex, age)
     }
 
     fun setUserData()
@@ -80,7 +78,7 @@ class DisplayUserInfoActivity : AppCompatActivity() {
         result.forEach(fun(it: String) {
             when {
                 it.startsWith("name:", true) -> {
-                    //   name.setText(it.substringAfter(":")).toString()
+                    name = it.substringAfter(":").toString()
                 }
                 it.startsWith("birthdate:", true) -> {
                     //birthdate.setText(it.substringAfter(":")).toString()
@@ -119,20 +117,27 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     }
 
 
-
-    fun run(weight: String, height: String, sex: String, age: String) {
-
+    fun run(name: String, weight: String, height: String, sex: String, age: String) {
+        // access 
+      
+      ing field
+        val greetText = findViewById<TextView>(R.id.greet)
         // access the field which displays BMI number.
         val profileView = findViewById<CircleImageView>(R.id.profileImg)
         val bmiText = findViewById<TextView>(R.id.bmiNum)
         val idealWeightText = findViewById<TextView>(R.id.idealWeight)
         var gson = Gson()
         var myBMI : UserBMIEntity.UserBMIInfo
+        var greetMsg = "Hello, $name"
         var bmiMsg = "nothing here."
         var weightMsg = "nothing here."
 
         profileView.apply {
             setImageURI(imgUri)
+        }
+      
+        greetText.apply {
+            text = greetMsg
         }
 
         val mediaType = MediaType.parse("application/json")
@@ -165,9 +170,11 @@ class DisplayUserInfoActivity : AppCompatActivity() {
                         .toList()
 
                     val weightString = arrayOf("${numbers[0]}.${numbers[1]}", "${numbers[2]}.${numbers[3]}")
+                    val roundedOne = (weightString[0].toDouble() * 2.2).toBigDecimal().setScale(1, RoundingMode.UP)
+                    val roundedTwo = (weightString[1].toDouble() * 2.2).toBigDecimal().setScale(1, RoundingMode.UP)
 
-                    weightMsg = "${weightString[0].toBigDecimal().setScale(1, RoundingMode.UP).toDouble() * 2.2} lbs to" +
-                            "${weightString[1].toBigDecimal().setScale(1, RoundingMode.UP).toDouble() * 2.2} lbs."
+                    weightMsg = "${roundedOne} lbs to" +
+                            "${roundedTwo} lbs."
                     Handler(Looper.getMainLooper()).post(Runnable {
                         bmiText.apply {
                             text = bmiMsg

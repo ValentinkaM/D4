@@ -16,6 +16,9 @@
         <activity android:name=".DisplayUserInfoActivity">
         </activity>
         <activity android:name=".FormFields">
+        </activity>
+        <activity android:name=".DisplayMessageActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
