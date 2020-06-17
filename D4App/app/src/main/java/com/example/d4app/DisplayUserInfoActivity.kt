@@ -28,6 +28,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.google.gson.Gson
+import de.hdodenhof.circleimageview.CircleImageView
 import okhttp3.*
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -122,7 +123,7 @@ class DisplayUserInfoActivity : AppCompatActivity() {
     fun run(weight: String, height: String, sex: String, age: String) {
 
         // access the field which displays BMI number.
-        val profileView = findViewById<ImageView>(R.id.profileImg)
+        val profileView = findViewById<CircleImageView>(R.id.profileImg)
         val bmiText = findViewById<TextView>(R.id.bmiNum)
         val idealWeightText = findViewById<TextView>(R.id.idealWeight)
         var gson = Gson()

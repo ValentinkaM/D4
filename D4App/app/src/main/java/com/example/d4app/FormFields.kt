@@ -18,7 +18,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.*
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_form_fields.*
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -52,10 +52,10 @@ class FormFields : AppCompatActivity() {
         val weight = findViewById<EditText>(R.id.userWeight)
         val bioRole = findViewById<Spinner>(R.id.userSex)
         val btnSave = findViewById<Button>(R.id.btnSaveUserProfile)
-
+        val profileView = findViewById<CircleImageView>(R.id.profileImg)
 
         // Camera functionality
-        capture_btn.setOnClickListener {
+        profileView.setOnClickListener {
             //if system os is Marshmallow or Above, we need to request runtime permission
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -199,7 +199,7 @@ class FormFields : AppCompatActivity() {
         //called when image was captured from camera intent
         if (resultCode == Activity.RESULT_OK){
             //set image captured to image view
-            image_view.setImageURI(image_uri)
+            profileImg.setImageURI(image_uri)
         }
     }
 
