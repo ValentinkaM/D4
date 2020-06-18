@@ -118,9 +118,7 @@ class DisplayUserInfoActivity : AppCompatActivity() {
 
 
     fun run(name: String, weight: String, height: String, sex: String, age: String) {
-        // access 
-      
-      ing field
+        // access
         val greetText = findViewById<TextView>(R.id.greet)
         // access the field which displays BMI number.
         val profileView = findViewById<CircleImageView>(R.id.profileImg)
